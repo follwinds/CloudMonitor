@@ -1,0 +1,198 @@
+django部分
+——————————————————————————————————————————————————————————————————————————————————————————
+安装django
+通过pip安装 ubuntu 14.04
+1.安装pip sudo apt-get install python-pip
+2.pip install django
+3.安装成功后会在 /usr/local/bin目录下可以看到django-admin.py文件
+print django.VERSION
+
+创建project
+1.django-admin.py startproject project-name
+不用考虑路径
+
+创建app
+1.进入project-name目录，执行python manage.py startapp app-name
+
+同步数据库
+python manage.py makemigrations
+python manage.py migrate
+
+运行服务器
+1.python manage.py runserver
+2.修改端口 python manage.py runserver 8001
+3.局域网访问 python manage.py runserver 0.0.0.0:8000
+
+创建超级管理员
+1.python manage.py createsuperuser
+
+普通用户名和密码 miao 1994123
+管理员用户名和密码 admin miao1994
+
+安装数据库
+ubuntu安装mysql apt-get install mysql-server mysql-cilent
+安装成功后 mysql -u root -p 输入密码进入数据库
+配置目录在 /etc/mysql
+apt-get install python-mysqldb
+
+django连接数据库：
+配置文件位置：yourprojectname/yourprojectname/settings.py
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'cloudmonitor',
+	'USER':'root',
+	'PASSWORD':'sklois123',
+	'HOST':'127.0.0.1',
+	'PORT':'3306'
+    }
+}
+模板文件位置：
+STATIC_URL = '/static/'
+在yourapp目录下新建static文件即可
+————————————————————————————————————————————————————————————————————————————————————————————
+
+collectd部分
+————————————————————————————————————————————————————————————————————————————————————————————
+ubuntu:
+安装collectd
+1.sudo apt-get install collectd
+2.sudo apt-get install rrdtool
+3.sudo apt-get install python-rrdtool
+配置文件位置：
+cd /etc/collectd/collectd.conf
+只需配置两个插件 rrdtool network
+rrdtool 配置rrd数据目录 DataDir "/var/lib/collectd/rrd"
+network 配置监控节点 Listen "10.10.1.12" "25826"
+
+centOS:
+1.rpm -ivh collectd
+2.rpm -ivh collectd-virt
+
+配置文件：
+cd /etc/collectd.conf
+配置Hostname localhostcloud
+
+需要配置插件如下：
+1.CPU 选项默认
+2.memory 选项默认
+3.interface 选项为p1p2(进行过滤)
+4.disk 选项默认
+5.load 选项默认
+6.network 配置监控节点 Server "10.10.1.12" "25826"
+7.virt 选项 qemu:///system
+
+————————————————————————————————————————————————————————————————————————————————————————————
+
+sflow部分
+————————————————————————————————————————————————————————————————————————————————————————————
+centos:
+#!/bin/bash
+COLLECTER_IP=10.10.1.12
+COLLECTER_PORT=6343
+AGENT_IP=p1p2
+HEADER_BYTES=128
+SAMPLING_N=1
+POLLING_SECS=30
+ovs-vsctl -- --id=@s create sflow agent=${AGENT_IP} target=\"${COLLECTER_IP}:${COLLECTER_PORT}\" header=${HEADER_BYTES} sampling=${SAMPLING_N} polling=${POLLING_SECS} -- set bridge br-int sflow=@s
+ovs-vsctl list sflow
+ubuntu：
+ sFlow-RT requires Java 1.7+
+ ubuntu安装Java步骤
+ 编辑文件 /etc/profile
+ export JAVA_HOME=/usr/java/jdk1.8.0_73
+ export PATH=$JAVA_HOME/bin:$PATH
+ export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+ sflow-rt下载链接
+ wget http://www.inmon.com/products/sFlow-RT/sflow-rt.tar.gz
+ tar -xvzf sflow-rt.tar.gz
+ cd sflow-rt
+ ./start.sh
+ 下载sflow-rt解压进入目录/home/foll/GraduationProject/sflow-rt执行命令运行 ./start.sh 默认端口8008
+————————————————————————————————————————————————————————————————————————————————————————————
+
+系统部分
+————————————————————————————————————————————————————————————————————————————————————————————
+硬件设备：两台笔记本
+ISO下载连接：
+ubuntu 14.04—— http://mirrors.163.com/ubuntu-releases/14.04/ubuntu-14.04.4-desktop-amd64.iso
+centos 7 minimal—— http://mirrors.163.com/centos/7/isos/x86_64/CentOS-7-x86_64-Minimal-1511.iso
+制作U盘启动盘：UltraISO
+IP地址配置
+ubuntu 14.04—— /etc/network/interfaces
+address 10.10.1.12 
+netmask 255.255.255.0
+centOS 7 minimal—— /etc/sysconfig/network-scripts/ifcfg-p1p2
+ONBOOT=yes
+IPADDR=10.10.1.11
+PREFIX=24
+ubuntu安装需要配置无线网卡部分
+1.apt-get update
+2.apt-get install bcmwl-kernel-source（忘记可以查询 apt search bcm)
+验证两个系统是否可以ping通
+____________________________________________________________________________________________
+
+准备工作
+____________________________________________________________________________________________
+
+1.ubuntu上安装Apache服务器
+  apt-get install apache2
+  配置文件/etc/apache2/apache2.conf
+  将centos目录拷到到/var/www/html目录
+  CentOS-Base.repo目录位置http://127.0.0.1/centos/7/CentOS-Base.repo
+  cirros.img目录位置http://127.0.0.1/centos/7/cirros-0.3.3-x86_64-disk.img
+2.centos修改CentOS-Base.repo文件
+  切换到 /etc/yum.repos.d
+  执行 mv CentOS-Base.repo CentOS-Base.repo.backup
+  curl http://127.0.0.1//centos/7/CentOS-Base.repo >> CentOS-Base.repo
+3.centos安装packstack
+  yum clean all
+  yum makecache
+  yum install -y openstack-packstack
+4.centos在根目录新建文件加usb（只有笔记本右面的USB接口可以使用）
+  挂载U盘
+  cat /proc/partitions
+  mount /dev/sdb4 usb
+  复制packstack-answers-demo.txt到根目录
+  卸载U盘
+  umount /dev/sdb4
+5.centos安装OpenStack
+  packstack --answer-file=packstack-answers-demo.txt
+6.centos安装ssh
+  yum install openssh
+7.ubuntu安装ntp
+  apt-get install ntp
+  配置文件位置/etc/ntp.conf
+  broadcast 10.10.1.255
+  service ntp start
+  centos更新时间
+  ntpdate 10.10.1.12
+____________________________________________________________________________________________
+
+云计算虚拟化安全监控系统使用步骤
+____________________________________________________________________________________________
+
+1.首先启动ubuntu系统和centos7系统
+2.同步时间
+  ubuntu ：service ntp start
+  centos ：ntpdate 10.10.1.12
+3.开启collectd
+  ubuntu ：默认已经开启 （service collectd start）
+  centos ：systemctl start collectd
+4.开始sflow
+  centos : 默认已经开启（ ovs-vsclt list sflow）
+5.验证collectd和sflow是否采样数据
+  centos：
+  tcpdump -i p1p2 udp port 25626
+  tcpdump -i p1p2 udp port 6343
+6.切换目录/home/foll/GraduationProject/sflow-rt
+  运行 ./start.sh
+7.切换目录/home/foll/mysite/cloud
+  运行 python flow.py
+8.切换目录/home/foll/mysite
+  运行 python manage.py runserver
+
+
+
+
+
