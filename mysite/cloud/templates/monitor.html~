@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, user-scalable=no">
+  <meta http-equiv="refresh" content="5">
+  <title>CloudMonitor</title>
+  <link rel="icon" type="image/x-icon" href="/static/img/favicon.ico">
+  <link href="/static/css/bootstrap.css" rel="stylesheet">
+  <link href="/static/css/nav.css" rel="stylesheet">
+  <link href="/static/css/monitor.css" rel="stylesheet">
+  <style type="/static/text/css"></style>
+</head>
+
+<body style="overflow-x:hidden ">
+<!--nav开始-->
+<div class="daohang-top"><span class="logo"><img src="/static/img/logo.png"/></span><span>云计算虚拟化安全监控系统</span>
+  <div id="nav-nav">
+    <span><img src="/static/img/user.png" alt=""/> 你好，管理员</span>
+    <a><img src="/static/img/logout.png" alt=""/> 注销</a>
+  </div>
+</div>
+<div id="daohang-b" class="daohang-left-b" >
+  <div data-k="1"><p>&nbsp;<img src="/static/img/tag.png" alt=""/>&nbsp;物理服务器系统性能数据</p></div>
+  <ul data-k="1-0" class="daohang-ba">
+    <li class="daohang-bb" data-k="1-1">Physical-01</li>
+  </ul>
+  <div data-k="2"><p>&nbsp;<img src="/static/img/tag.png" alt=""/>&nbsp;虚拟机系统性能数据</p></div>
+  <ul data-k="2-0" class="daohang-ba">
+    <li class="daohang-bb" data-k="2-1" ">Instance-01</li>
+    <li class="daohang-bb" data-k="2-2" ">Instance-02</li>
+  </ul>
+  <div data-k="3"><p>&nbsp;<img src="/static/img/tag.png" alt=""/>&nbsp;虚拟网络流量数据</p></div>
+  <ul data-k="3-0" class="daohang-ba">
+    <li class="daohang-bb"  data-k="3-1">TCP flow</li>
+    <li class="daohang-bb"  data-k="3-2">UDP flow</li>
+    <li class="daohang-bb"  data-k="3-3">ICMP flow</li>
+    <li class="daohang-bb"  data-k="3-4">HTTP flow</li>
+  </ul>
+  <div data-k="4"><p>&nbsp;<img src="/static/img/tag.png" alt=""/>&nbsp;安全检测与记录</p></div>
+  <ul data-k="4-0" class="daohang-ba">
+    <li class="daohang-bb"  data-k="4-1">物理服务器阈值告警</li>
+    <li class="daohang-bb"  data-k="4-2">虚拟机阈值告警</li>
+    <li class="daohang-bb"  data-k="4-3">SSH暴力破解检测</li>
+    <li class="daohang-bb"  data-k="4-4">ICMP flood检测</li>
+    <li class="daohang-bb"  data-k="4-5">HTTP URL关键字过滤</li>
+  </ul>
+  <div data-k="5"><p>&nbsp;<img src="/static/img/tag.png" alt=""/>&nbsp;系统设置</p></div>
+  <ul data-k="5-0" class="daohang-ba">
+    <li class="daohang-bb"  data-k="5-1">当前阈值</li>
+    <a href="admin"><li class="daohang-bb"  data-k="5-2">修改设置</li></a>
+  </ul>
+</div>
+<!--nav结束-->
+
+
+<!--主体部分开始------------------------------------------------------------->
+<div id="content">
+<!-------------------------------------------------------------type=1-start-->
+  <div id="table-1">
+    <table border="5">
+      <tr>
+        <td>物理服务器名：{{physical_name}}</td>
+      </tr>
+    </table>
+    <table border="4">
+      <thead>
+      <tr>
+        <th colspan="4">CPU使用</th>
+      </tr>
+      </thead>
+      <tr>
+        <td>逻辑CPU</td>
+        <td>使用率(%)</td>
+        <td>阈&nbsp;值(%)</td>
+        <td>状&nbsp;态</td>
+      </tr>
+      <tr>
+        <td>cpu-0</td>
+        <td>{{cpu0_used}}</td>
+        <td rowspan="4">{{pcpu_limit}}</td>
+        <td>{{cpu0_status}}</td>
+      </tr>
+      <tr>
+        <td>cpu-1</td>
+        <td>{{cpu1_used}}</td>
+        <td>{{cpu1_status}}</td>
+      </tr>
+       <tr>
+        <td>cpu-2</td>
+        <td>{{cpu2_used}}</td>
+        <td>{{cpu2_status}}</td>
+      </tr>
+       <tr>
+        <td>cpu-3</td>
+        <td>{{cpu3_used}}</td>
+        <td>{{cpu3_status}}</td>
+      </tr>
+    </table>
+    <table border="5">
+      <thead>
+      <tr>
+        <th colspan="5">内存使用</th>
+      </tr>
+      </thead>
+      <tr>
+        <td>参&nbsp;数</td>
+        <td>大&nbsp;小(MB)</td>
+        <td>使用率(%)</td>
+        <td>阈&nbsp;值(%)</td>
+        <td>状&nbsp;态</td>
+      </tr>
+      <tr>
+        <td>total</td>
+        <td>{{memory_total}}</td>
+        <td rowspan="4">{{memory_used_rate}}</td>
+        <td rowspan="4">{{memory_limit}}</td>
+        <td rowspan="4">{{memory_status}}</td>
+      </tr>
+      <tr>
+        <td>used</td>
+        <td>{{memory_used}}</td>
+      </tr>
+      <tr>
+        <td>free</td>
+        <td>{{memory_free}}</td>
+      </tr>
+      <tr>
+	<td>buffer/cache</td>
+        <td>{{memory_buffer_cache}}</td>
+      </tr>
+    </table>
+    <table border="5">
+      <thead>
+      <tr>
+        <th colspan="5">网络接口收发数据</th>
+      </tr>
+      </thead>
+      <tr>
+        <td>接口名称</td>
+        <td colspan="2">字节数(B/s)</td>
+        <td colspan="2">包数(n/s)</td>
+      </tr>
+      <tr>
+        <td rowspan="2">p1p2</td>
+        <td>发送</td>
+        <td>接受</td>
+        <td>发送</td>
+        <td>接受</td>
+      </tr>
+      <tr>
+        <td>{{octets_tx}}</td>
+        <td>{{octets_rx}}</td>
+        <td>{{packets_tx}}</td>
+        <td>{{packets_rx}}</td>
+      </tr>
+    </table>
+    <table border="5">
+      <thead>
+      <tr>
+        <th colspan="3">磁盘读写</th>
+      </tr>
+      </thead>
+      <tr>
+        <td>磁盘名</td>        
+        <td>字节数(B/s)</td>
+	<td>操作数(n/s)</td>
+      </tr>
+      <tr>
+        <td>sda</td>
+        <td>读:&nbsp;{{disk_octets_read}}&nbsp;写:&nbsp;{{disk_octets_write}}</td>
+	<td>读:&nbsp;{{disk_ops_read}}&nbsp;写:&nbsp;{{disk_ops_write}}</td>
+      </tr>
+    </table>
+    <table border="5">
+      <thead>
+      <tr>
+        <th colspan="5">系统负载</th>
+      </tr>
+       </thead>
+      <tr>
+        <td>1min</td>
+        <td>5min</td>
+        <td>15min</td>
+        <td>阈&nbsp;值</td>
+        <td>状&nbsp;态</td>
+      </tr>
+      <tr>
+        <td>{{load_s}}</td>
+        <td>{{load_m}}</td>
+        <td>{{load_l}}</td>
+        <td>{{load_limit}}</td>
+        <td>{{load_status}}</td>
+      </tr>
+      </thead>
+    </table>
+    <br>
+    <li style="margin-left: 95px">注释:个别数值出现 * 符号表示该量未及时采样，所有数值(阈值除外)出现 * 符号表示物理服务器没有启动</li>
+  </div>
+<!-------------------------------------------------------------type=1-end-->
+<!-------------------------------------------------------------type=2-start-->
+  <div id="table-2">
+    <table border="5">
+      <tr>
+        <td>虚拟机名:{{vm_name}}</td>
+      </tr>
+    </table>
+    <table border="5">
+      <thead>
+      <tr>
+        <th colspan="5">CPU使用</th>
+      </tr>
+      </thead>
+      <tr>
+        <td>参&nbsp;数</td>
+        <td>大&nbsp;小(份额)</td>
+        <td>比&nbsp;值</td>
+        <td>阈&nbsp;值</td>
+        <td>状&nbsp;态</td>
+      </tr>
+      <tr>
+        <td>cpu_toal</td>
+        <td>{{vcpu_total}}</td>
+        <td rowspan="2">{{vcpu_used}}</td>
+        <td rowspan="2">{{vcpu_limit}}</td>
+        <td rowspan="2">{{vcpu_status}}</td>
+      </tr>
+      <tr>
+        <td>vcpu-0</td>
+        <td>{{vcpu_0}}</td>
+      </tr>
+    </table>
+    <table border="5">
+      <thead>
+      <tr>
+        <th colspan="5">内存使用</th>
+      </tr>
+      </thead>
+      <tr>
+        <td>参&nbsp;数</td>
+        <td>大&nbsp;小(MB)</td>
+        <td>使用率(%)</td>
+        <td>阈&nbsp;值(%)</td>
+        <td>状&nbsp;态</td>
+      </tr>
+      <tr>
+        <td>total</td>
+        <td>{{vmemory_total}}</td>
+        <td rowspan="3">{{vmemory_used}}</td>
+        <td rowspan="3">{{vmemory_limit}}</td>
+        <td rowspan="3">{{vmemory_status}}</td>
+      </tr>
+      <tr>
+        <td>rss</td>
+        <td>{{vmemory_rss}}</td>
+      </tr>
+      <tr>
+        <td>actual_balloon</td>
+        <td>{{actual_balloon}}</td>
+      </tr>
+    </table>
+    <table border="5">
+      <thead>
+      <tr>
+        <th colspan="5">网络接口收发数据</th>
+      </tr>
+      </thead>
+      <tr>
+        <td>接口名称</td>
+        <td colspan="2">字节数(B/s)</td>
+        <td colspan="2">包数(n/s)</td>
+      </tr>
+      <tr>
+        <td rowspan="2">{{if_name}}</td>
+        <td>发送</td>
+        <td>接受</td>
+        <td>发送</td>
+        <td>接受</td>
+      </tr>
+      <tr>
+        <td>{{voctets_tx}}</td>
+        <td>{{voctets_rx}}</td>
+        <td>{{vpackets_tx}}</td>
+        <td>{{vpackets_rx}}</td>
+      </tr>
+    </table>
+    <table border="5">
+      <thead>
+      <tr>
+        <th colspan="2">磁盘读写</th>
+      </tr>
+      </thead>
+      <tr>
+        <td>字节数(/s)</td>
+	<td>操作数(/s)</td>
+      </tr>
+      <tr>   
+        <td>读:&nbsp;{{vdisk_octets_read}}&nbsp;写:&nbsp;{{vdisk_octets_write}}</td>
+	<td>读:&nbsp;{{vdisk_ops_read}}&nbsp;写:&nbsp;{{vdisk_ops_write}}</td>
+      </tr>
+    </table>
+    <br>
+    <li style="margin-left: 95px">注释:个别数值出现 * 符号表示该量未及时采样，所有数值(阈值除外)出现 * 符号表示没有启动</li>
+  </div>
+<!-------------------------------------------------------------type=2-end-->
+<!-------------------------------------------------------------type=3-start-->
+  <div id="table-3">
+    <table border="5">
+      <tr>
+        <th colspan="10">虚拟机网络接口映射关系</th>
+      </tr>
+      <tr>
+ 	<td>虚拟机名</td>
+	<td>网络接口名</td>
+	<td>网络接口标识符</td> 
+      {% for s in lists %}
+      <tr>
+        <td>{{s.0}}</td>
+	<td>{{s.1}}</td>
+	<td>{{s.2}}</td>  
+      </tr>
+      {% endfor %}
+    </table>
+    <table border="5">
+      <tr>
+        <th colspan="10">虚拟交换机端口映射关系</th>
+      </tr>
+      <tr>
+	<td>端口号</td>
+	<td>端口名</td>
+      </tr>
+      {% for s in listp %}
+      <tr>
+        <td>{{s.0}}</td> 
+	<td>{{s.1}}</td> 
+      </tr>
+      {% endfor %}
+    </table>
+    <table border="5">
+      <tr>
+        <th colspan="10">TCP Active flow</th>
+      </tr>
+      <tr>
+	<td>Time</td>
+        <td>S-IP</td>
+	<td>D-IP</td>
+	<td>S-Port</td>
+	<td>D-Port</td>
+	<td>I-Port</td>
+	<td>O-Port</td>
+	<td>Flag</td>
+	<td>bytes</td>
+      </tr>
+     {% for ft in list_tcp %}
+      <tr>
+        <td>{{ft.0}}</td>
+	<td>{{ft.1}}</td>
+	<td>{{ft.2}}</td>
+	<td>{{ft.3}}</td>
+	<td>{{ft.4}}</td>
+	<td>{{ft.5}}</td>
+	<td>{{ft.6}}</td>
+	<td>{{ft.7}}</td>
+	<td>{{ft.8}}</td>
+      </tr>
+	{% ifequal ft.7 "000000010"%}
+		{% ifequal ft.4 "22"%}	
+	<tr>
+	 <td colspan="9">{{ft.1}}正在请求{{ft.2}}进行SSH连接</td>	
+	</tr>
+		{% endifequal %}
+		{% ifequal ft.4 "23"%}	
+	<tr>
+	 <td colspan="9">{{ft.1}}正在请求{{ft.2}}进行TELNET连接</td>	
+	</tr>
+		{% endifequal %}
+		{% ifequal ft.4 "80"%}	
+	<tr>
+	 <td colspan="9">{{ft.1}}正在请求{{ft.2}}进行HTTP连接</td>	
+	</tr>
+		{% endifequal %}
+	{%  endifequal %}
+	{% ifequal ft.7 "000010001"%}
+		{% ifequal ft.3 "22"%}	
+	<tr>
+	 <td colspan="9">{{ft.1}}终止{{ft.2}}的SSH连接</td>	
+	</tr>
+		{% endifequal %}
+		{% ifequal ft.3 "23"%}	
+	<tr>
+	 <td colspan="9">{{ft.1}}终止{{ft.2}}的TELNET连接</td>	
+	</tr>
+		{% endifequal %}
+		{% ifequal ft.3 "80"%}	
+	<tr>
+	 <td colspan="9">{{ft.1}}终止{{ft.2}}的HTTP连接</td>	
+	</tr>
+		{% endifequal %}
+	{%  endifequal %}
+	{% ifequal ft.7 "000010100"%}
+		{% ifequal ft.3 "22"%}	
+	<tr>
+	 <td colspan="9">{{ft.1}}复位{{ft.2}}的SSH连接</td>	
+	</tr>
+		{% endifequal %}
+		{% ifequal ft.3 "23"%}	
+	<tr>
+	 <td colspan="9">{{ft.1}}复位{{ft.2}}的TELNET连接</td>	
+	</tr>
+		{% endifequal %}
+		{% ifequal ft.3 "80"%}	
+	<tr>
+	 <td colspan="9">{{ft.1}}复位{{ft.2}}的HTTP连接</td>	
+	</tr>
+		{% endifequal %}
+	{%  endifequal %}
+	 {% endfor %}
+      </thead>
+    </table>
+    <br>
+    <li style="margin-left: 95px">注释:没有数据表示被监控节点未启动或者sFlow Agent代理配置不正确</li>
+  </div>
+<!-------------------------------------------------------------type=3-end-->
+<!-------------------------------------------------------------type=4-start-->
+  <div id="table-4">
+       <table border="5">
+      <tr>
+        <th colspan="10">虚拟机网络接口映射关系</th>
+      </tr>
+      <tr>
+ 	<td>虚拟机名</td>
+	<td>网络接口名</td>
+	<td>网络接口标识符</td> 
+      {% for s in lists %}
+      <tr>
+        <td>{{s.0}}</td>
+	<td>{{s.1}}</td>
+	<td>{{s.2}}</td>  
+      </tr>
+      {% endfor %}
+    </table>
+    <table border="5">
+      <tr>
+        <th colspan="10">虚拟交换机端口映射关系</th>
+      </tr>
+      <tr>
+	<td>端口号</td>
+	<td>端口名</td>
+      </tr>
+      {% for s in listp %}
+      <tr>
+        <td>{{s.0}}</td> 
+	<td>{{s.1}}</td> 
+      </tr>
+      {% endfor %}
+    </table>
+    <table border="5">
+      <tr>
+        <th colspan="10">UDP Active flow</th>
+      </tr>
+      <tr>
+	<td>Time</td>
+        <td>S-IP</td>
+	<td>D-IP</td>
+	<td>S-Port</td>
+	<td>D-Port</td>
+	<td>I-Port</td>
+	<td>O-Port</td>
+	<td>bytes</td>
+      </tr>
+     {% for ft in list_udp %}
+      <tr>
+        <td>{{ft.0}}</td>
+	<td>{{ft.1}}</td>
+	<td>{{ft.2}}</td>
+	<td>{{ft.3}}</td>
+	<td>{{ft.4}}</td>
+	<td>{{ft.5}}</td>
+	<td>{{ft.6}}</td>
+	<td>{{ft.7}}</td>
+      </tr>
+	 {% endfor %}
+      </thead>
+    </table>
+    <br>
+    <li style="margin-left: 95px">注释:没有数据表示被监控节点未启动或者sFlow Agent代理配置不正确</li>
+  </div>
+<!-------------------------------------------------------------type=5-end-->
+<!-------------------------------------------------------------type=5-start-->
+  <div id="table-5">
+    <table border="5">
+      <tr>
+        <th colspan="10">虚拟机网络接口映射关系</th>
+      </tr>
+      <tr>
+ 	<td>虚拟机名</td>
+	<td>网络接口名</td>
+	<td>网络接口标识符</td> 
+      {% for s in lists %}
+      <tr>
+        <td>{{s.0}}</td>
+	<td>{{s.1}}</td>
+	<td>{{s.2}}</td>  
+      </tr>
+      {% endfor %}
+    </table>
+    <table border="5">
+      <tr>
+        <th colspan="10">虚拟交换机端口映射关系</th>
+      </tr>
+      <tr>
+	<td>端口号</td>
+	<td>端口名</td>
+      </tr>
+      {% for s in listp %}
+      <tr>
+        <td>{{s.0}}</td> 
+	<td>{{s.1}}</td> 
+      </tr>
+      {% endfor %}
+    </table>
+    <table border="5">
+      <tr>
+        <th colspan="10">ICMP Active flow</th>
+      </tr>
+      <tr>
+	<td>Time</td>
+        <td>S-IP</td>
+	<td>D-IP</td>
+	<td>I-Port</td>
+	<td>O-Port</td>
+        <td>Type</td>
+	<td>bytes</td>
+      </tr>
+     {% for ft in list_icmp %}
+      <tr>
+        <td>{{ft.0}}</td>
+	<td>{{ft.1}}</td>
+	<td>{{ft.2}}</td>
+	<td>{{ft.3}}</td>
+	<td>{{ft.4}}</td>
+	<td>{{ft.5}}</td>
+	<td>{{ft.6}}</td>
+      </tr>
+	 {% endfor %}
+      </thead>
+    </table>
+    <br>
+    <li style="margin-left: 95px">注释:没有数据表示被监控节点未启动或者sFlow Agent代理配置不正确</li>
+  </div>
+<!-------------------------------------------------------------type=5-end-->
+<!-------------------------------------------------------------type=6-start-->
+  <div id="table-6">
+    <table border="5">
+      <tr>
+        <th colspan="10">虚拟机机网络接口映射关系</th>
+      </tr>
+      <tr>
+ 	<td>虚拟机名</td>
+	<td>网络接口名</td>
+	<td>网络接口标识符</td> 
+      {% for s in lists %}
+      <tr>
+        <td>{{s.0}}</td>
+	<td>{{s.1}}</td>
+	<td>{{s.2}}</td>  
+      </tr>
+      {% endfor %}
+    </table>
+    <table border="5">
+      <tr>
+        <th colspan="10">虚拟交换机端口映射关系</th>
+      </tr>
+      <tr>
+	<td>端口号</td>
+	<td>端口名</td>
+      </tr>
+      {% for s in listp %}
+      <tr>
+        <td>{{s.0}}</td> 
+	<td>{{s.1}}</td> 
+      </tr>
+      {% endfor %}
+    </table>
+    <table border="5">
+      <tr>
+        <th colspan="10">HTTP Active flow</th>
+      </tr>
+      <tr>
+	<td>Time</td>
+        <td>S-IP</td>
+	<td>D-IP</td>
+	<td>HTTPMethod</td>
+	<td>HTTPurl</td>
+	<td>bytes</td>
+      </tr>
+     {% for ft in list_http %}
+      <tr>
+        <td>{{ft.0}}</td>
+	<td>{{ft.1}}</td>
+	<td>{{ft.2}}</td>
+	<td>{{ft.3}}</td>
+	<td>{{ft.4}}</td>
+	<td>{{ft.5}}</td>
+      </tr>
+	 {% endfor %}
+      </thead>
+    </table>
+    <br>
+    <li style="margin-left: 95px">注释:没有数据表示被监控节点未启动或者sFlow Agent代理配置不正确</li>
+  </div>
+<!-------------------------------------------------------------type=6-end-->
+<!-------------------------------------------------------------type=7-start-->
+<div id="table-7">
+    <table border="5">
+      <tr>
+        <th colspan="2">安全检测与记录</th>
+      </tr>
+      {% for fs in list_security %}
+      <tr>
+        <td>{{fs}}</td>
+      </tr>
+       {% endfor %}
+     </table>
+    <br>
+    <li style="margin-left: 95px">注释:默认显示15条Log记录</li>
+</div>
+<!-------------------------------------------------------------type=7-end-->
+<!-------------------------------------------------------------type=8-start-->
+<div id="table-8">
+    <table border="5">
+      <tr>
+        <th>阈值名称</th>
+	<th>当前值</th>
+      </tr> 
+      <tr>
+	<td>物理服务器CPU使用率(百分比)</td>
+	<td>{{list_threshold.0}}</td>
+     </tr>
+     <tr>
+	<td>物理服务器内存使用率(百分比)</td>
+	<td>{{list_threshold.1}}</td>
+     </tr>
+     <tr>
+	<td>物理服务器系统负载</td>
+	<td>{{list_threshold.2}}</td>
+     </tr>
+     <tr>
+	<td>虚拟机CPU使用比值(百分比)</td>
+	<td>{{list_threshold.3}}</td>
+    </tr>
+    <tr>
+	<td>虚拟机内存使用率(百分比)</td>
+	<td>{{list_threshold.4}}</td>
+    </tr>
+    <tr>
+	<td>SSH单位时间请求率最大值</td>
+	<td>{{list_threshold.5}}</td>
+    </tr>
+    <tr>
+	<td>ICMP flood单个flow字节率最大值</td>
+	<td>{{list_threshold.6}}</td>
+    </tr>
+     <tr>
+	<td>ICMP flood flow数量最大值</td>
+	<td>{{list_threshold.7}}</td>
+    </tr>
+    <tr>
+	<td>HTTP URL关键字</td>
+	<td>{{list_threshold.8}}</td>
+     </tr>
+   </table>
+</div>
+<!-------------------------------------------------------------type=8-end-->
+</div>
+<!--主体部分结束------------------------------------------------------------->
+<script src="/static/js/jquery-1.11.3.js"></script>
+<script src="/static/js/bootstrap.js"></script>
+<script src="/static/js/nav.js"></script>
+</body>
+</html>

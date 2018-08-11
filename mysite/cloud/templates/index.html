@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, user-scalable=no">
+  <title>CloudMonitor</title>
+  <link rel="icon" type="image/x-icon" href="/static/img/favicon.ico">
+  <link href="/static/css/bootstrap.css" rel="stylesheet">
+  <link href="/static/css/index.css" rel="stylesheet">
+  </head>
+<body style="overflow-y:hidden">
+<div class="back">
+  <img id="bg-img" src="/static/img/background.jpg" alt=""/>
+  <div class="top-logo"><img  id="img1" src="/static/img/index/logo.png" alt=""/></div>
+  <div id="denglu-top">登录</div>
+  	<div id="denglu">
+ 	 <ul>
+  <form action="{% url 'cloud.views.index' %}" method="post"> 
+  {% csrf_token %}
+  <li><span class="span-logo"><img src="/static/img/index/user.png" alt=""/></span><input name='username' class="shuru" type="text" placeholder="用户名"/></li>
+  <li><span class="span-logo"><img src="/static/img/index/pw.png" alt=""/></span><input  name='password' class="shuru" type="password" placeholder="密码"/></li>
+  <li style="margin-left: 95px">{{status}}</li>
+  <li><button id="login">登录 <img src="/static/img/index/login.png" alt=""/></button></li>
+  </form>
+ 	 </ul>
+  	</div>
+  <div class="last">&copy;计算机科学与技术学院 信安12-3班 苗发彪 2016</div>
+</div>
+<script src="/static/js/jquery-1.11.3.js"></script>
+</body>
+</html>

@@ -1,0 +1,183 @@
+*{
+  margin:0;
+  padding:0;
+  list-style: none;
+}
+.show{
+  display:block;
+}
+.hide{
+  display:none;
+}
+.action{
+  background:#00cc69;
+}
+.action2{
+   /*background:#00b35c;       /!*父项选中颜色*!/*/
+  /*color:#00cc69;*/
+ }
+.action2>p{
+  color:#00cc69 !important;
+}
+.hover{
+  background:#444;
+}
+/*字体加粗*/
+.font-bolder{
+  font-weight: bold;
+}
+/*////////////////////////////////////*/
+/*顶端标题CSS*/
+/*////////////////////////////////////*/
+.daohang-top{
+  width:100%;
+  height:40px;
+  background:#00cc69;
+  line-height: 40px;
+  position:fixed;
+  z-index: 10000;
+}
+.daohang-top>span{
+  font-family:"Microsoft Yahei";
+  font-size: 18px;
+  font-weight: bold;
+  color:#fff;
+}
+.logo{
+  margin-left:16px;
+  margin-right:10px;
+  position:relative;
+  top:-2px;
+}
+/*////////////////////////////////////*/
+/*三条横线选项CSS*/
+/*////////////////////////////////////*/
+.sanheng{
+  height:40px;
+  background-color:#111;
+}
+
+/*////////////////////////////////////*/
+/*左侧导航展开CSS*/
+/*////////////////////////////////////*/
+
+.daohang-left-b{
+  width:240px;
+  height:100%;
+  background:#222;
+  position:fixed;
+  top:40px;
+  cursor:pointer;
+}
+.daohang-left-b>div{
+  width:240px;
+  height:50px;
+  display:table;
+  padding-left: 16px;
+}
+.daohang-left-b>div:hover{
+  background:#444;
+}
+.daohang-left-b>div:active{
+  background:#333;
+}
+.daohang-left-b span{
+  display: table-cell;
+  vertical-align:middle;
+  width:50px;
+}
+.daohang-left-b p{
+  line-height: 50px;
+  margin:0;
+  color:#fff;
+  font-family:"Microsoft Yahei";
+  font-size: 16px;
+  margin-left:-16px;
+}
+/*////////////////////////////////////*/
+/*左侧导航展开后选项CSS*/
+/*////////////////////////////////////*/
+#daohang-b>ul{
+  margin:0;
+  padding:0;
+}
+.daohang-bb{
+  font-style: normal;
+  display:block;
+  color:#fff;
+  font-family:"Microsoft Yahei";
+  font-size: 14px;
+  height:40px;
+  padding-left:60px;
+  line-height: 40px;
+}
+/*.daohang-bb:hover {*/
+  /*background:#00cc69;*/
+/*}*/
+.daohang-bb:active{
+  background:#00cc69;
+}
+.daohang-bb>span{
+
+}
+
+
+/*添加连接*/
+.a{
+  display: inline-block;
+  color:#fff;
+  width:100%;
+  height:100%;
+}
+.a:hover{
+  color:#fff;
+  text-decoration: none;
+}
+
+/*底部*/
+.last{
+  width:300px;
+  margin:0 auto;
+  position: relative;
+  top:520px;
+  color: #000;
+  font-size: 12px;
+  left:45px;
+  z-index: 9999999;
+  font-family: "Microsoft Yahei";
+}
+
+
+/*顶部*/
+#nav-nav{
+  display: inline-block;
+  float:right;
+  margin-right: 20px;
+  color:#fff;
+  font-family: "Microsoft Yahei";
+}
+#nav-nav span{
+  border-right:1.5px solid #fff;
+  padding-right: 20px;
+  cursor: pointer;
+}
+#nav-nav a{
+  color: #fff;
+  margin-left: 20px;
+}#nav-nav a:hover{
+  text-decoration: none;
+  cursor: pointer;
+}
+
+
+/*////////////////////////////////////*/
+/*正文CSS*/
+/*////////////////////////////////////*/
+#content{
+  width:800px;
+  height:2000px;
+  position: relative;
+  left:240px;
+  top:40px;
+  overflow: hidden;
+}
